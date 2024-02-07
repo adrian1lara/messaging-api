@@ -8,7 +8,7 @@ interface IChat {
 
 const chatSchema = new Schema<IChat>({
     type: { type: String, default: 'one_to_one' },
-    participants: { type: [Schema.Types.ObjectId], ref: 'User' },
+    participants: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     created_at: { type: Date, default: Date.now }
 })
 

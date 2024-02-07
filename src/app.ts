@@ -1,15 +1,18 @@
 import express, {Request, Response, NextFunction} from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
+import userRoutes from './routes/userRoutes'
 
 
 const app = express();
 app.use(cors())
 app.use(bodyParser.json())
+app.use("/users", userRoutes)
 
 app.get("/", (req: Request, res: Response) => {
     res.send("Hello World!")
 })
+
 
 export interface CustomError extends Error { 
     statusCode?: number;

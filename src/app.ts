@@ -8,7 +8,7 @@ import chatRouter from './routes/chatRoutes';
 const app = express();
 app.use(cors())
 app.use(bodyParser.json())
-app.use("/users", userRoutes)
+app.use("/api/v0/user", userRoutes)
 app.use("/api/v0/chat", chatRouter)
 
 app.get("/", (req: Request, res: Response) => {

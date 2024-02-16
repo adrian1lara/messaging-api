@@ -5,10 +5,10 @@ import { createUser, getUsers } from "../controllers/userController";
 const userRouter = Router()
 
 
-userRouter.get("/api/users", getUsers)
+userRouter.get("/users", getUsers)
 
 
-userRouter.post("/api/newUser", createUser)
+userRouter.post("/newUser", createUser)
 
 
 

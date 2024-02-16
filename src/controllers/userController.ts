@@ -23,3 +23,20 @@ export const createUser = async (req: Request, res: Response) => {
 }
 
 
+
+export const getUsers = async (req: Request, res: Response) => {
+    try {
+        
+        const users = await User.find().exec()
+
+        if(!users) {
+            return res.status(404).send("User not found")
+        }
+
+        res.send(users)
+
+    } catch (error) {
+        console.error(error)
+        res.status(500).send("Something went wrong")
+    }
+}

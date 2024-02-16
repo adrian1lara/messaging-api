@@ -10,8 +10,10 @@ export const createUser = async (req: Request, res: Response) => {
         const hashedpass = hashSync(req.body.password, 10)
 
         const user = new User ({email, username, password: hashedpass})
+        
         await user.save()
-        res.send(user)
+
+        res.status(201).send(user)
 
 
     } catch (error) {
@@ -33,7 +35,7 @@ export const getUsers = async (req: Request, res: Response) => {
             return res.status(404).send("User not found")
         }
 
-        res.send(users)
+        res.status(201).send(users)
 
     } catch (error) {
         console.error(error)

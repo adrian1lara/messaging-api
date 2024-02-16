@@ -2,12 +2,14 @@ import express, {Request, Response, NextFunction} from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import userRoutes from './routes/userRoutes'
+import chatRouter from './routes/chatRoutes';
 
 
 const app = express();
 app.use(cors())
 app.use(bodyParser.json())
 app.use("/users", userRoutes)
+app.use("/api/v0/chat", chatRouter)
 
 app.get("/", (req: Request, res: Response) => {
     res.send("Hello World!")

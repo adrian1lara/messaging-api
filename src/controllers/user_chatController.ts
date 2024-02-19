@@ -35,5 +35,22 @@ export const createUser_Chat = async(req: Request, res: Response) => {
 
 
 export const getUser_Chat = async(req: Request, res: Response) => {
-    
+    try {
+        
+        const { userId } = req.params
+
+
+        const user_chats = await User_Chat.find({user: userId}).populate('chat')
+
+        if(!user_chats || user_chats.length === 0) {
+            return res.status(404).send("User chat relation not found")
+        }
+
+        
+        return res.status(201).send(user_chats)
+
+    } catch (error) {
+        console.error(error)
+        return res.status(500).send("something went wrong :/")
+    }
 } 

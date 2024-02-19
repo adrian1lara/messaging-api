@@ -15,7 +15,7 @@ export const createUser_Chat = async(req: Request, res: Response) => {
             return res.status(404).send("User or chat not found")
         }
 
-        const existingUserChat = await User_Chat.findOne({user: userId, chat:chatId})
+        const existingUserChat = await User_Chat.findOne({user: userId, chat: chatId})
 
         if(existingUserChat) {
             res.status(400).send("User is already part of the chat")
@@ -36,13 +36,10 @@ export const createUser_Chat = async(req: Request, res: Response) => {
 
 export const getUser_Chat = async(req: Request, res: Response) => {
     try {
-        
-        const { userId } = req.params
 
+        const user_chats = await User_Chat.find()
 
-        const user_chats = await User_Chat.find({user: userId}).populate('chat')
-
-        if(!user_chats || user_chats.length === 0) {
+        if(!user_chats || user_chats.length == 0) {
             return res.status(404).send("User chat relation not found")
         }
 

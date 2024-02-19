@@ -4,6 +4,7 @@ import cors from 'cors'
 import userRoutes from './routes/userRoutes'
 import chatRouter from './routes/chatRoutes';
 import user_chatRouter from './routes/user_chatRoutes';
+import messageRouter from './routes/messageRoutes';
 
 
 const app = express();
@@ -12,6 +13,7 @@ app.use(bodyParser.json())
 app.use("/api/v0/user", userRoutes)
 app.use("/api/v0/chat", chatRouter)
 app.use("/api/v0/user_chat", user_chatRouter)
+app.use("/api/v0/message", messageRouter )
 
 app.get("/", (req: Request, res: Response) => {
     res.send("Hello World!")

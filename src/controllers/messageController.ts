@@ -5,21 +5,26 @@ import Chat from "../models/chat";
 
 
 export const getMessagesInChat = async(req: Request, res: Response) => {
-    const { userId, chatId } = req.params
+    try {
+        const { userId, chatId } = req.params
 
-    const user = await User.findById(userId)
-
-    if(!user) {
-        return res.status(404).send("user not found")
+        const user = await User.findById(userId)
+    
+        if(!user) {
+            return res.status(404).send("user not found")
+        }
+    
+        const messages = await Message.find({chat: chatId})
+    
+        if(!messages) { 
+            return res.status(404).send("Messages not found")
+        }
+    
+        return res.status(201).send(messages)
+    } catch (error) {
+        console.error(error)
+        return res.status(500).send("somenthing went wrong :/")
     }
-
-    const messages = await Message.find({chat: chatId})
-
-    if(!messages) { 
-        return res.status(404).send("Messages not found")
-    }
-
-    return res.status(201).send(messages)
 }
 
 export const createMessage = async(req: Request, res: Response) => {

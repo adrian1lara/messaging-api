@@ -3,8 +3,8 @@ import { createChat, getChats } from "../controllers/chatController";
 
 const chatRouter = Router()
 
-chatRouter.post("/newChat", createChat)
+chatRouter.post("/new", createChat)
 
-chatRouter.get("/chats", getChats)
+chatRouter.get("/all", getChats)
 
 export default chatRouter

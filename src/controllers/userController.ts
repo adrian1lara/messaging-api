@@ -15,7 +15,7 @@ export const loginUser = async(req: Request, res: Response) => {
         const isUserExist = await User.findOne({ email: email })
 
         if(!isUserExist) {
-            return res.status(404).send("User nor found")
+            return res.status(404).send("User not found")
         }
 
         const isPassword = compareSync(password, isUserExist?.password.toString())

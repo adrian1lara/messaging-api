@@ -1,4 +1,4 @@
-import express, {Request, Response, NextFunction} from 'express'
+import express, {Request, Response, NextFunction, Application} from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import userRoutes from './routes/userRoutes'
@@ -7,7 +7,7 @@ import user_chatRouter from './routes/user_chatRoutes';
 import messageRouter from './routes/messageRoutes';
 
 
-const app = express();
+const app: Application = express();
 app.use(cors())
 app.use(bodyParser.json())
 app.use("/api/v0/user", userRoutes)

@@ -21,7 +21,7 @@ export const authenticate = async(req: Request, res: Response, next: NextFunctio
             return res.status(401).send("Not authorized, user ID not found")
         }
 
-        const user = await User.findById(decoded._id, "_id username email")
+        const user = await User.findById(decoded._id, "_id username email role")
 
         if(!user) {
             return res.status(404).send("Not authorized, user not found")
@@ -35,3 +35,4 @@ export const authenticate = async(req: Request, res: Response, next: NextFunctio
         return res.status(401).send("Not authorized, invalid token")
     }
 }
+

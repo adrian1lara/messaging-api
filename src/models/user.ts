@@ -2,6 +2,7 @@ import  {Schema, model } from 'mongoose'
 
 interface IUser {
     _id: String,
+    role: String,
     email: String,
     username: String,
     password: String,
@@ -19,6 +20,7 @@ declare global {
 
 
 const userSchema = new Schema<IUser> ({
+    role: {type: String, enum: ['admin', 'user'], default: 'user'},
     username : { type: String, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true },

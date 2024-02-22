@@ -1,12 +1,21 @@
 import  {Schema, model } from 'mongoose'
 
 interface IUser {
+    _id: String,
     email: String,
     username: String,
     password: String,
     created_at: Date,
     avatar?: String
 }
+
+declare global {
+    namespace Express {
+      interface Request {
+        user?: IUser | null;
+      }
+    }
+  }
 
 
 const userSchema = new Schema<IUser> ({

@@ -26,7 +26,7 @@ export const loginUser = async(req: Request, res: Response) => {
 
         const token = sign(
             { _id: isUserExist?._id, email: isUserExist?.email, username: isUserExist?.username},
-            "YOUR_SECRET",
+            process.env.JWT_SECRET || "",
             {
                 expiresIn: '1d'
             }
@@ -80,4 +80,17 @@ export const getUsers = async (req: Request, res: Response) => {
         console.error(error)
         res.status(500).send("Something went wrong")
     }
+}
+
+
+export const getUser = async(req: Request, res: Response) => {
+    const userId = req.user?._id
+
+    const user = await User.findById(userId, 'username email')
+    
+    if(!user) {
+        return res.status(400)
+    }
+
+    return res.status(201).json(user)
 }

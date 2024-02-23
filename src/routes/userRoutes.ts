@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createUser, deleteUserByAdmin, getUser, getUsers, loginUser } from "../controllers/userController";
+import { createUser, deleteUserAccount, deleteUserByAdmin, getUser, getUsers, loginUser } from "../controllers/userController";
 import { authenticate } from "../middlewares/auth";
 import isAdmin from "../middlewares/admin";
 
@@ -17,7 +17,7 @@ userRouter.post("/auth/login", loginUser)
 
 userRouter.delete("/auth/delete/:userId", authenticate, isAdmin, deleteUserByAdmin)
 
-
+userRouter.delete("/auth/account/delete/:userId", authenticate, deleteUserAccount)
 
 
 export default userRouter

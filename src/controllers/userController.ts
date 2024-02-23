@@ -116,3 +116,31 @@ export const deleteUserByAdmin = async (req: Request, res:Response) => {
     }
 
 }
+
+
+export const deleteUserAccount = async(req: Request, res: Response) => {
+    try {
+        
+        const {userId} = req.params
+
+        const user = await User.findById(userId) 
+
+        if(!user) {
+            return res.status(404).send("User not found")
+        }
+
+        if(userId != req.user?._id){ 
+            return res.status(403).send("Unauthorized: not owner")
+        }
+
+        await User.findByIdAndDelete(userId)
+
+        return res.status(201).send("Succesfully deleted")
+
+    } catch (error) {
+        console.error(error)
+        return res.status(500).send("Somenthing went wrong :/")
+        
+    }
+
+}

@@ -123,14 +123,14 @@ export const deleteUserAccount = async(req: Request, res: Response) => {
         
         const {userId} = req.params
 
+        if(req.user?._id != userId) {
+            return res.status(403).send("Not authorized, not the owner")
+        }
+
         const user = await User.findById(userId) 
 
         if(!user) {
             return res.status(404).send("User not found")
-        }
-
-        if(userId != req.user?._id){ 
-            return res.status(403).send("Unauthorized: not owner")
         }
 
         await User.findByIdAndDelete(userId)

@@ -8,6 +8,10 @@ export const getMessagesInChat = async(req: Request, res: Response) => {
     try {
         const { userId, chatId } = req.params
 
+        if(req.user?._id != userId) {
+            return res.status(403).send("Not authorized")
+        }
+
         const user = await User.findById(userId)
     
         if(!user) {
@@ -32,6 +36,10 @@ export const createMessage = async(req: Request, res: Response) => {
         
         const { userId, chatId } = req.params
         const { text } = req.body
+
+        if(req.user?._id != userId) {
+            return res.status(403).send("Not authorized")
+        }
 
         const user = await User.findById(userId)
 

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createUser, deleteUserAccount, deleteUserByAdmin, getUser, getUsers, loginUser } from "../controllers/userController";
+import { createUser, deleteUserAccount, deleteUserByAdmin, getUserByToken, getUsers, loginUser } from "../controllers/userController";
 import { authenticate } from "../middlewares/auth";
 import isAdmin from "../middlewares/admin";
 
@@ -9,7 +9,7 @@ const userRouter = Router()
 userRouter.get("/all", getUsers)
 
 
-userRouter.get("/:id", authenticate, getUser)
+userRouter.get("/auth/me", authenticate, getUserByToken)
 
 userRouter.post("/new", createUser)
 

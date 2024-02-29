@@ -83,7 +83,7 @@ export const getUsers = async (req: Request, res: Response) => {
 }
 
 
-export const getUser = async(req: Request, res: Response) => {
+export const getUserByToken = async(req: Request, res: Response) => {
     
     const userId = req.user?._id
 

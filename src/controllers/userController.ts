@@ -4,6 +4,32 @@ import { compareSync, hashSync } from "bcrypt"
 import { sign } from "jsonwebtoken"
 
 
+export const findUserByUsername = async(req: Request, res: Response ) => {
+
+    const searchTerm = req.query.searchTerm as String
+    
+    try {
+        
+        const query = searchTerm ? { username: { $regex: searchTerm, $options: "i"}} : {} // i for case-insensitive search
+
+        const users = await User.find(query)
+
+        if(users.length <= 0) {
+            return res.status(404).json("Username not found")
+        }
+
+        return res.status(201).json(users)
+
+    } catch (error) {
+        console.error(error)
+        res.status(500).send("Somenthing went wrong :/")
+    }
+
+
+
+}
+
+
 export const loginUser = async(req: Request, res: Response) => {
     
     try {

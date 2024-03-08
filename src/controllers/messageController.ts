@@ -6,11 +6,9 @@ import Chat from "../models/chat";
 
 export const getMessagesInChat = async(req: Request, res: Response) => {
     try {
-        const { userId, chatId } = req.params
+        const { chatId } = req.params
 
-        if(req.user?._id != userId) {
-            return res.status(403).send("Not authorized")
-        }
+        const userId = req.user?._id
 
         const user = await User.findById(userId)
     
@@ -24,22 +22,20 @@ export const getMessagesInChat = async(req: Request, res: Response) => {
             return res.status(404).send("Messages not found")
         }
     
-        return res.status(201).send(messages)
+        return res.status(201).json(messages)
     } catch (error) {
         console.error(error)
         return res.status(500).send("somenthing went wrong :/")
     }
 }
 
-export const createMessage = async(req: Request, res: Response) => {
+export const sendMessage = async(req: Request, res: Response) => {
     try {
         
-        const { userId, chatId } = req.params
+        const { chatId } = req.params
         const { text } = req.body
 
-        if(req.user?._id != userId) {
-            return res.status(403).send("Not authorized")
-        }
+        const userId = req.user?._id
 
         const user = await User.findById(userId)
 
@@ -65,7 +61,7 @@ export const createMessage = async(req: Request, res: Response) => {
 
         await newMessage.save()
 
-        return res.status(201).send(newMessage)
+        return res.status(201).json(newMessage)
 
 
     } catch (error) {

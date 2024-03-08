@@ -2,16 +2,30 @@ import User from "../models/user"
 import Chat from "../models/chat"
 import { Response , Request} from "express"
 
+
+export const deleteAllChats = async(req: Request, res: Response) => {
+    try {
+        
+        await Chat.deleteMany()
+
+        res.status(201).send("Successfully deleted")
+
+    } catch (error) {
+        console.error(error)
+        return res.status(500).send("Somenthing went wrong")
+    }
+}
+
 export const createChat = async (req: Request, res: Response) => {
 
     try {
         
         const { participants } = req.body
 
-        const existingUsers = await User.find({ _id: { $in : participants }})
-    
-        if(existingUsers.length !== existingUsers.length) {
-            return res.status(400).send("Invalid users ID's provided")
+        // Check for existing chat with same participants
+        const existingChat = await Chat.findOne({ participants });
+        if (existingChat) {
+        return res.status(401).json({ message: "Chat already exists", chat: existingChat });
         }
     
         const newChat = new Chat({ participants: participants })
@@ -73,5 +87,25 @@ export const getUserChats = async (req: Request, res: Response) => {
     } catch (error) {
         console.error(error)
         return res.status(404).send("Somenthing went wrong :/")
+    }
+}
+
+export const getChatByUserId = async (req: Request, res:Response) => {
+
+    const userId = req.query.userId
+
+    try {
+
+        const existingChat = await Chat.findOne({ participants: { $all : [req.user?._id, userId] }})
+
+        if(existingChat) {
+            return res.status(201).json([existingChat])
+        } else {
+            res.json([])
+        }
+        
+    } catch (error) {
+        console.error(error)
+        return res.status(500).send("Somenthing went wrong")
     }
 }

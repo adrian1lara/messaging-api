@@ -3,6 +3,18 @@ import Message from "../models/message";
 import User from "../models/user";
 import Chat from "../models/chat";
 
+export const getAllMessages = async(req: Request, res: Response) => {
+    try {
+        
+        const messages = await Message.find()
+
+        return res.status(201).json(messages)
+
+    } catch (error) {
+        console.error(error)
+        return res.status(500).send("Somenthing went wrong :/")
+    }
+}
 
 export const getMessagesInChat = async(req: Request, res: Response) => {
     try {
@@ -49,9 +61,7 @@ export const sendMessage = async(req: Request, res: Response) => {
             return res.status(400).send("user is not part of the chat")
         }
 
-        if(text.length <= 0) {
-            return res.status(400).send("message is required")
-        }
+        
 
         const newMessage = new Message({
             content: text,

@@ -7,10 +7,25 @@ import chatRouter from './routes/chatRoutes';
 import user_chatRouter from './routes/user_chatRoutes';
 import messageRouter from './routes/messageRoutes';
 import { errorHandler } from './middlewares/errorMiddleware'
+import { Server } from 'socket.io'
+import { createServer } from 'http'
 
 
 const app: Application = express();
-app.use(cors())
+export const server = createServer(app)
+export const io = new Server(server, {
+  cors: {
+    origin: 'http://localhost:3001',
+    methods:['GET','POST']
+  }
+})
+
+
+app.use(cors({
+  origin: ["http://localhost:3000", "http://localhost:3001"],
+  credentials: true,
+})) 
+
 app.use(bodyParser.json())
 app.use(cookieParser())
 app.use("/api/v0/user", userRoutes)
@@ -20,6 +35,18 @@ app.use("/api/v0/message", messageRouter )
 
 app.get("/", (req: Request, res: Response) => {
     res.send("Hello World!")
+})
+
+io.on('connection', (socket) => {
+  console.log('A user is connected');
+
+  socket.on('message', (message) => {
+    console.log(`message from ${socket.id} : ${message}`);
+  })
+
+  socket.on('disconnect', () => {
+    console.log(`socket ${socket.id} disconnected`);
+  })
 })
 
 
@@ -43,5 +70,3 @@ app.use((_req: Request, _res: Response, next: NextFunction) => {
       .json({ name, message: err.message }); 
   }); 
 
-
-export default app

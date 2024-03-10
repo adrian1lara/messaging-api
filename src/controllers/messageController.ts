@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import Message from "../models/message";
 import User from "../models/user";
 import Chat from "../models/chat";
+import { io } from "../app";
 
 export const getAllMessages = async(req: Request, res: Response) => {
     try {
@@ -71,11 +72,24 @@ export const sendMessage = async(req: Request, res: Response) => {
 
         await newMessage.save()
 
+        io.emit("new_message", newMessage)
+
         return res.status(201).json(newMessage)
 
 
     } catch (error) {
         console.error(error)
         return res.status(500).send("Somenthing went wrong :/")
+    }
+}
+
+export const deleteAllMessages = async(req: Request, res:Response) => {
+    try {
+        await Message.deleteMany()
+
+        return res.status(201).send("Successfully deleted")
+    } catch (error) {
+        console.error(error)
+        return res.status(500).send("Something went wrong :/")
     }
 }

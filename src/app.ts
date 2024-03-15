@@ -15,14 +15,14 @@ const app: Application = express();
 export const server = createServer(app)
 export const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:3001',
+    origin: 'http://localhost:3000',
     methods:['GET','POST']
   }
 })
 
 
 app.use(cors({
-  origin: ["http://localhost:3000", "http://localhost:3001"],
+  origin: ["https://chatty-api.fly.dev", "http://localhost:3000"],
   credentials: true,
 })) 
 

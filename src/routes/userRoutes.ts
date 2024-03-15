@@ -6,7 +6,7 @@ import isAdmin from "../middlewares/admin";
 const userRouter = Router()
 
 
-userRouter.get("/all", authenticate, isAdmin, getUsers)
+userRouter.get("/all", authenticate, getUsers)
 
 userRouter.get("/search/username", findUserByUsername)
 

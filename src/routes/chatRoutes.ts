@@ -5,14 +5,14 @@ import isAdmin from "../middlewares/admin";
 
 const chatRouter = Router()
 
-chatRouter.post("/new", createChat)
+chatRouter.post("/new", authenticate,createChat)
 
-chatRouter.get("/all", authenticate, getChats)
+chatRouter.get("/all", authenticate, isAdmin, getChats)
 
 chatRouter.get("/:userId/chats", authenticate, getUserChats)
 
 chatRouter.get("/user", authenticate, getChatByUserId)
 
-chatRouter.delete("/delete/all", deleteAllChats)
+chatRouter.delete("/delete/all", authenticate, isAdmin, deleteAllChats)
 
 export default chatRouter

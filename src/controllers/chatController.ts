@@ -32,7 +32,7 @@ export const createChat = async (req: Request, res: Response) => {
     
         await newChat.save()
     
-        res.status(201).send(newChat)
+        return res.status(201).json(newChat._id)
 
     } catch (error) {
         console.error(error)
@@ -99,10 +99,11 @@ export const getChatByUserId = async (req: Request, res:Response) => {
         const existingChat = await Chat.findOne({ participants: { $all : [req.user?._id, userId] }})
 
         if(existingChat) {
-            return res.status(201).json([existingChat])
+            return res.status(201).json(existingChat._id)
         } else {
-            res.json([])
+            return res.json('')
         }
+
         
     } catch (error) {
         console.error(error)

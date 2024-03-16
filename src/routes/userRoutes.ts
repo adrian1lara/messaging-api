@@ -2,6 +2,7 @@ import { Router } from "express";
 import { createUser, deleteUserAccount, deleteUserByAdmin, findUserByUsername, getUserByToken, getUsers, loginUser } from "../controllers/userController";
 import { authenticate } from "../middlewares/auth";
 import isAdmin from "../middlewares/admin";
+import limitUsers from "../middlewares/limitUsers";
 
 const userRouter = Router()
 
@@ -12,7 +13,7 @@ userRouter.get("/search/username", findUserByUsername)
 
 userRouter.get("/auth/me", authenticate, getUserByToken)
 
-userRouter.post("/new", createUser)
+userRouter.post("/new", limitUsers, createUser)
 
 userRouter.post("/auth/login", loginUser)
 

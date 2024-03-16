@@ -11,7 +11,7 @@ import { Server } from 'socket.io'
 import { createServer } from 'http'
 
 
-const app: Application = express();
+export const app: Application = express();
 export const server = createServer(app)
 export const io = new Server(server, {
   cors: {

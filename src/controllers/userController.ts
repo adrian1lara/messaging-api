@@ -113,7 +113,7 @@ export const getUserByToken = async(req: Request, res: Response) => {
     
     const userId = req.user?._id
 
-    const user = await User.findById(userId, 'username email role')
+    const user = await User.findById(userId, 'username email role avatar')
     
     if(!user) {
         return res.status(400)
@@ -169,4 +169,45 @@ export const deleteUserAccount = async(req: Request, res: Response) => {
         
     }
 
+}
+
+export const deleteManyUsers = async(req: Request, res: Response ) => {
+    try {
+        const email = req.body.email
+
+        await User.deleteMany({email: email})
+
+        return res.status(201).json("Succesfully Deleted")
+
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+
+export const updateAvatar = async (req: Request, res: Response) => {
+    try {
+        const userId = req.user?._id
+        const newAvatar = req.body.avatar
+
+        const user = await User.findById(userId)
+
+        if(!user) {
+            return res.status(404).json("User not found")
+        }
+
+        if(!newAvatar) {
+            return res.status(400).json("The avatar url is required")
+        }
+
+        await User.findByIdAndUpdate(userId, {
+            avatar: newAvatar
+        }, {new: true})
+
+        return res.status(201).json("Successfully update")
+
+    } catch (error) {
+        console.error(error)
+        return res.status(500).json("Something went wrong :/")
+    }
 }

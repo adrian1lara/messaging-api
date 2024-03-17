@@ -25,7 +25,7 @@ const userSchema = new Schema<IUser> ({
     email: { type: String, required: true },
     password: { type: String, required: true },
     created_at: { type: Date, default: Date.now },
-    avatar: String
+    avatar: {type: String, default: ''}
 })
 
 const User = model<IUser>('User', userSchema)

@@ -23,6 +23,6 @@ userRouter.delete("/auth/delete/:userId", authenticate, isAdmin, deleteUserByAdm
 
 userRouter.delete("/auth/account/delete/:userId", authenticate, deleteUserAccount)
 
-userRouter.delete("/delete/many", authenticate, isAdmin, deleteManyUsers)
+userRouter.delete("/delete/many", authenticate, isAdmin, deleteManyUsers) // delete many by email
 
 export default userRouter

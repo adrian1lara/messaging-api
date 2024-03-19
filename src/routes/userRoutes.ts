@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createUser, deleteManyUsers, deleteUserAccount, deleteUserByAdmin, findUserByUsername, getUserByToken, getUsers, loginUser, updateAvatar } from "../controllers/userController";
+import { createUser, deleteAllUsers, deleteManyUsers, deleteUserAccount, deleteUserByAdmin, findUserByUsername, getUserByToken, getUsers, loginUser, updateAvatar } from "../controllers/userController";
 import { authenticate } from "../middlewares/auth";
 import isAdmin from "../middlewares/admin";
 import limitUsers from "../middlewares/limitUsers";
@@ -24,5 +24,7 @@ userRouter.delete("/auth/delete/:userId", authenticate, isAdmin, deleteUserByAdm
 userRouter.delete("/auth/account/delete/:userId", authenticate, deleteUserAccount)
 
 userRouter.delete("/delete/many", authenticate, isAdmin, deleteManyUsers) // delete many by email
+
+userRouter.delete("/delete/all", authenticate, isAdmin, deleteAllUsers) //delete all users
 
 export default userRouter

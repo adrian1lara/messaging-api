@@ -72,6 +72,11 @@ export const createUser = async (req: Request, res: Response) => {
         const { email, username, password } = req.body
         if(!email || !username || !password) return res.status(400).send("All fields are required")
 
+        const existingUser = await User.findOne({ email: { $regex: email, $options: 'i' } });
+        if (existingUser) {
+          return res.status(409).send("Email address already in use");
+        }
+
         const hashedpass = hashSync(req.body.password, 10)
 
         const user = new User ({email, username, password: hashedpass})

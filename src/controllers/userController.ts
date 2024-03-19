@@ -54,7 +54,7 @@ export const loginUser = async(req: Request, res: Response) => {
             { _id: isUserExist?._id, email: isUserExist?.email, username: isUserExist?.username, role: isUserExist?.role},
             process.env.JWT_SECRET || "",
             {
-                expiresIn: '1d'
+                expiresIn: '7d'
             }
         )
 
@@ -209,5 +209,18 @@ export const updateAvatar = async (req: Request, res: Response) => {
     } catch (error) {
         console.error(error)
         return res.status(500).json("Something went wrong :/")
+    }
+}
+
+
+export const deleteAllUsers = async(req: Request, res: Response) => {
+    try {
+        
+        await User.deleteMany()
+
+        return res.status(201).json("successfully deleted")
+
+    } catch (error) {
+        console.error(error)
     }
 }
